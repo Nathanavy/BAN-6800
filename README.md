@@ -1,16 +1,17 @@
 # BAN-6800
-Business Analytics Capstone
+data
 
-data:
-walmart_sales_final.csv          # Final integrated dataset (daily × store × category) 
-walmart_sales_final_sample.csv   # 10% sample for lightweight testing
-walmart_store_metadata.csv       # Store metadata (store_id, region, format)
-walmart_calendar.csv             # Calendar with holidays, weekends, seasons
+  walmart_clean.csv
+  
+  walmart_clean_sample.csv
 
-notebooks:
-walmart_eda.ipynb                # EDA notebook (cleaning, transformations, plots)  
+notebooks
 
-docs:
-walmart_milestone1.pptx          # Slide presentation
+  walmart_realdata_eda.ipynb
+  
+docs
 
-README.md                        # Project documentation  
+  walmart_milestone1_realdata.pptx
+  
+README.md
+

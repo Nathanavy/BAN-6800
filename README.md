@@ -1,5 +1,6 @@
 # BAN-6800
 Business Analytics Capstone
+
 data:
 walmart_sales_final.csv          # Final integrated dataset (daily × store × category) 
 walmart_sales_final_sample.csv   # 10% sample for lightweight testing

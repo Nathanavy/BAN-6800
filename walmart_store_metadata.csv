@@ -1,0 +1,13 @@
+store_id,region,format
+S001,South,Supercenter
+S002,West,Sam's Club
+S003,Midwest,Neighborhood Market
+S004,Northeast,Supercenter
+S005,South,Supercenter
+S006,West,Supercenter
+S007,Midwest,Supercenter
+S008,Northeast,Neighborhood Market
+S009,South,Neighborhood Market
+S010,West,Neighborhood Market
+S011,Midwest,Supercenter
+S012,Northeast,Sam's Club

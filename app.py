@@ -1,4 +1,6 @@
-
+from flask import Flask, request, jsonify
+import joblib
+import pandas as pd
 import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split
@@ -7,7 +9,19 @@ from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 import matplotlib.pyplot as plt
 
+# Create Flask app
+app = Flask(__name__)
 
+@app.route("/")
+def home():
+    return "Flask app is running!"
+
+@app.route("/predict", methods=["POST"])
+def predict():
+    data = request.json
+    # example dummy response
+    return jsonify({"prediction": "placeholder"})
+    
 # Load data
 df = pd.read_csv('Walmart.csv')
 df['Date'] = pd.to_datetime(df['Date'], errors='coerce')
@@ -76,6 +90,7 @@ def evaluate(y_true, y_pred):
 
 print('LinearRegression ->', evaluate(y_test, lr_preds))
 print('RandomForest ->', evaluate(y_test, rf_preds))
+
 
 
 

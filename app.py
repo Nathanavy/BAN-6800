@@ -49,7 +49,7 @@ train_df = df[df['Date'] <= split_date].copy()
 test_df = df[df['Date'] > split_date].copy()
 
 # Features that actually exist in your dataset
-features = ['IsHoliday', 'Year', 'Month', 'DayOfWeek', 'lag_1', 'rolling_mean_4']
+features = ['IsHoliday', 'Year', 'DayOfWeek', 'lag_1', 'rolling_mean_4']
 target = 'Weekly_Sales'
 
 X_train = train_df[features]; y_train = train_df[target]
@@ -76,5 +76,6 @@ def evaluate(y_true, y_pred):
 
 print('LinearRegression ->', evaluate(y_test, lr_preds))
 print('RandomForest ->', evaluate(y_test, rf_preds))
+
 
 

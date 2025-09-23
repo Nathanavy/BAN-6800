@@ -21,11 +21,23 @@ def home():
 @app.route("/predict", methods=["POST"])
 def predict():
     try:
-        data = request.get_json(force=True)
-        print("Received:", data)  # log to console
-        return jsonify({"received_data": data, "prediction": 1})
+        if not request.is_json:
+            return jsonify({"error": "Request must be JSON"}), 400
+
+        data = request.get_json()
+        print("DEBUG: Received data ->", data)  # logs to console
+
+        # dummy response
+        return jsonify({
+            "received_data": data,
+            "prediction": 1
+        })
+
     except Exception as e:
+        import traceback
+        print("ERROR in /predict:", traceback.format_exc())  # full error in console
         return jsonify({"error": str(e)}), 500
+
     
 # Load data
 df = pd.read_csv('Walmart.csv')
@@ -95,6 +107,7 @@ def evaluate(y_true, y_pred):
 
 print('LinearRegression ->', evaluate(y_test, lr_preds))
 print('RandomForest ->', evaluate(y_test, rf_preds))
+
 
 
 

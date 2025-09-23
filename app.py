@@ -19,28 +19,41 @@ def home():
 @app.route("/predict", methods=["GET", "POST"])
 def predict():
     try:
+        # If GET (browser visit), use some default input
         if request.method == "GET":
-            return jsonify({"message": "Send a POST request with JSON to get predictions."})
+            data = {
+                "IsHoliday": 0,
+                "Year": 2012,
+                "DayOfWeek": 3,
+                "lag_1": 20000,
+                "rolling_mean_4": 21000
+            }
+        else:
+            # POST case: require JSON
+            if not request.is_json:
+                return jsonify({"error": "Request must be JSON"}), 400
+            data = request.get_json()
 
-        # POST case
-        if not request.is_json:
-            return jsonify({"error": "Request must be JSON"}), 400
-
-        data = request.get_json()
         print("DEBUG: Received data ->", data)
 
-        # Expecting a JSON with features, e.g.
-        # {"IsHoliday":0, "Year":2012, "DayOfWeek":3, "lag_1":20000, "rolling_mean_4":21000}
-
+        # Features
         features = ["IsHoliday", "Year", "DayOfWeek", "lag_1", "rolling_mean_4"]
         defaults = {"IsHoliday": 0, "Year": 2012, "DayOfWeek": 0, "lag_1": 0, "rolling_mean_4": 0}
         input_data = np.array([[data.get(f, defaults[f]) for f in features]])
 
+        # Use your trained model (rf for example)
+        prediction = rf.predict(input_data)[0]
 
-        try:
-            input_data = np.array([[data[f] for f in features]])
-        except KeyError as ke:
-            return jsonify({"error": f"Missing feature: {str(ke)}"}), 400
+        return jsonify({
+            "received_data": data,
+            "prediction": float(prediction)
+        })
+
+    except Exception as e:
+        import traceback
+        print("ERROR in /predict:", traceback.format_exc())
+        return jsonify({"error": str(e)}), 500
+
 
         # Make prediction
         pred = rf.predict(input_data)[0]
@@ -117,4 +130,5 @@ print("RandomForest ->", evaluate(y_test, rf_preds))
 # -----------------------------
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
+
 

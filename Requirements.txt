@@ -5,5 +5,5 @@ scikit-learn
 numpy
 matplotlib       
 seaborn           
-
+flask_cors
 

@@ -21,7 +21,7 @@ def home():
 @app.route("/predict", methods=["GET", "POST"])
 def predict():
     if request.method == "GET":
-        return jsonify({"message": "Send a POST request with JSON to get predictions."})
+        return jsonify({"received_data": data, "prediction": 1})
     
     if request.method == "POST":
         try:
@@ -107,6 +107,7 @@ def evaluate(y_true, y_pred):
 
 print('LinearRegression ->', evaluate(y_test, lr_preds))
 print('RandomForest ->', evaluate(y_test, rf_preds))
+
 
 
 

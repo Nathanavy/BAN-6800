@@ -18,26 +18,14 @@ CORS(app)
 def home():
     return "Flask app is running!"
 
-@app.route("/predict", methods=["GET", "POST"])
+@app.route("/predict", methods=["POST"])
 def predict():
-    if request.method == "GET":
+    try:
+        data = request.get_json(force=True)
+        print("Received:", data)  # log to console
         return jsonify({"received_data": data, "prediction": 1})
-    
-    if request.method == "POST":
-        try:
-            data = request.get_json(force=True)  # force=True helps if header is missing
-            features = np.array([[
-                data.get("IsHoliday", 0),
-                data.get("Year", 2012),
-                data.get("DayOfWeek", 0),
-                data.get("lag_1", 0),
-                data.get("rolling_mean_4", 0)
-            ]])
-            # Example: use RandomForest
-            prediction = rf.predict(features).tolist()
-            return jsonify({"received_data": data, "prediction": 1})
-        except Exception as e:
-            return jsonify({"error": str(e)}), 400
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
     
 # Load data
 df = pd.read_csv('Walmart.csv')
@@ -107,6 +95,7 @@ def evaluate(y_true, y_pred):
 
 print('LinearRegression ->', evaluate(y_test, lr_preds))
 print('RandomForest ->', evaluate(y_test, rf_preds))
+
 
 
 

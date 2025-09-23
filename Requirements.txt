@@ -1,4 +1,4 @@
-flask
+tflask
 joblib
 pandas
 scikit-learn
@@ -6,4 +6,4 @@ numpy
 matplotlib       
 seaborn           
 flask_cors
-
+requests

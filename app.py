@@ -134,7 +134,7 @@ print(df.describe())
 if 'Weekly_Sales' in df.columns:
     ts = df.dropna(subset=['Date','Weekly_Sales']).set_index('Date').sort_index()
     weekly = ts['Weekly_Sales'].resample('W').sum()
-       plt.figure(figsize=(10,5))
+    plt.figure(figsize=(10,5))
     plt.plot(weekly.index, weekly.values, label="Weekly Sales")
     plt.title("Weekly Sales Trend")
     plt.xlabel("Week")
@@ -232,6 +232,7 @@ print("RandomForest ->", evaluate(y_test, rf_preds))
 # -----------------------------
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
+
 
 
 

@@ -1,4 +1,6 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
+CORS(app)
 import joblib
 import pandas as pd
 import pandas as pd
@@ -16,11 +18,11 @@ app = Flask(__name__)
 def home():
     return "Flask app is running!"
 
-@app.route("/predict", methods=["POST"])
+@app.route("/predict", methods=["GET", "POST"])
 def predict():
-    data = request.json
-    # example dummy response
-    return jsonify({"prediction": "placeholder"})
+    data = request.get_json()
+    # Example dummy prediction
+    return jsonify({"received_data": data, "prediction": 1})
     
 # Load data
 df = pd.read_csv('Walmart.csv')
@@ -90,6 +92,7 @@ def evaluate(y_true, y_pred):
 
 print('LinearRegression ->', evaluate(y_test, lr_preds))
 print('RandomForest ->', evaluate(y_test, rf_preds))
+
 
 
 

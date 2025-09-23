@@ -2,8 +2,8 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 import joblib
 import pandas as pd
-import pandas as pd
 import numpy as np
+import requests
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.linear_model import LinearRegression
@@ -20,9 +20,25 @@ def home():
 
 @app.route("/predict", methods=["GET", "POST"])
 def predict():
-    data = request.get_json()
-    # Example dummy prediction
-    return jsonify({"received_data": data, "prediction": 1})
+    if request.method == "GET":
+        # Useful so teacher can test in browser without error
+        return jsonify({"message": "Send a POST request with JSON to get predictions."})
+    
+    if request.method == "POST":
+        try:
+            data = request.get_json(force=True)  # force=True helps if header is missing
+            features = np.array([[
+                data.get("IsHoliday", 0),
+                data.get("Year", 2012),
+                data.get("DayOfWeek", 0),
+                data.get("lag_1", 0),
+                data.get("rolling_mean_4", 0)
+            ]])
+            # Example: use RandomForest
+            prediction = rf.predict(features).tolist()
+            return jsonify({"received_data": data, "prediction": prediction})
+        except Exception as e:
+            return jsonify({"error": str(e)}), 400
     
 # Load data
 df = pd.read_csv('Walmart.csv')
@@ -92,6 +108,7 @@ def evaluate(y_true, y_pred):
 
 print('LinearRegression ->', evaluate(y_test, lr_preds))
 print('RandomForest ->', evaluate(y_test, rf_preds))
+
 
 
 

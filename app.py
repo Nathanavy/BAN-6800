@@ -1,6 +1,5 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-CORS(app)
 import joblib
 import pandas as pd
 import pandas as pd
@@ -13,6 +12,7 @@ import matplotlib.pyplot as plt
 
 # Create Flask app
 app = Flask(__name__)
+CORS(app)
 
 @app.route("/")
 def home():
@@ -92,6 +92,7 @@ def evaluate(y_true, y_pred):
 
 print('LinearRegression ->', evaluate(y_test, lr_preds))
 print('RandomForest ->', evaluate(y_test, rf_preds))
+
 
 
 

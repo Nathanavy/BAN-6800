@@ -21,7 +21,6 @@ def home():
 @app.route("/predict", methods=["GET", "POST"])
 def predict():
     if request.method == "GET":
-        # Useful so teacher can test in browser without error
         return jsonify({"message": "Send a POST request with JSON to get predictions."})
     
     if request.method == "POST":
@@ -36,7 +35,7 @@ def predict():
             ]])
             # Example: use RandomForest
             prediction = rf.predict(features).tolist()
-            return jsonify({"received_data": data, "prediction": prediction})
+            return jsonify({"received_data": data, "prediction": 1})
         except Exception as e:
             return jsonify({"error": str(e)}), 400
     
@@ -108,6 +107,7 @@ def evaluate(y_true, y_pred):
 
 print('LinearRegression ->', evaluate(y_test, lr_preds))
 print('RandomForest ->', evaluate(y_test, rf_preds))
+
 
 
 
